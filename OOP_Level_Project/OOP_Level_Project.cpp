@@ -27,7 +27,14 @@ public:
 		cusName = new char[strlen(name) + 1];
 		strcpy(cusName, name);
 	}
-	
+
+	Account(const Account& ref)
+		:accID(ref.accID), balance(ref.balance)
+	{
+		cusName = new char[strlen(ref.cusName) + 1];
+		strcpy(cusName, ref.cusName);
+	}
+
 	int GetAccID() { return accID; }
 
 	void Deposit(int money) {
@@ -50,7 +57,7 @@ public:
 	}
 };
 
-Account * accArr[100];			//ACCOUNT 저장을 위한 배열
+Account* accArr[100];			//ACCOUNT 저장을 위한 배열
 int accNum = 0;					//저장된 ACCOUNT 수
 
 int main()
