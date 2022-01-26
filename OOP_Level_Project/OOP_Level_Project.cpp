@@ -27,14 +27,11 @@ public:
 		cusName = new char[strlen(name) + 1];
 		strcpy(cusName, name);
 	}
+<<<<<<<<< Temporary merge branch 1
 
-	Account(const Account& ref)
-		:accID(ref.accID), balance(ref.balance)
-	{
-		cusName = new char[strlen(ref.cusName) + 1];
-		strcpy(cusName, ref.cusName);
-	}
-
+=========
+	
+>>>>>>>>> Temporary merge branch 2
 	int GetAccID() { return accID; }
 
 	void Deposit(int money) {
