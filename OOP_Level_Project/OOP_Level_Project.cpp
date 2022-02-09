@@ -1,4 +1,4 @@
-﻿//Version OOP 단계별 프로젝트 05단계 2022-02-09
+﻿//Version OOP 단계별 프로젝트 06단계 2022-02-14
 // pRA.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
 //
 #define _CRT_SECURE_NO_WARNINGS
@@ -8,10 +8,16 @@
 using namespace std;
 const int NAME_LEN = 20;
 
+// 프로그램 사용자의 선택 메뉴
 enum { MAKE = 1, DEPOSIT, WITHDRAW, INQUIRE, EXIT };
+// 신용 등급
+enum { LEVEL_A = 7, LEVEL_B=4,LEVEL_C=2 };
+// 계좌의 종류
+enum { NORMAL = 1, CREDIT=2 };
+
 /*
 	클래스 이름 : Account
-	클래스 유형 : Entitu클래스
+	클래스 유형 : Entity 클래스
 */
 class Account {
 private:
@@ -23,7 +29,7 @@ public:
 	Account(const Account& ref);
 
 	int GetAccID() const;
-	void Deposit(int money);
+	virtual void Deposit(int money);
 	int Withdraw(int money);
 	void ShowAccInfo() const;
 	~Account();
@@ -63,6 +69,44 @@ public:
 	}
 
 /*
+	클래스 이름 : NormalAccount
+	클래스 유형 : Entity 클래스
+*/
+class NormalAccount :public Account 
+{
+private:
+	int interRate;	//이자율 % 단위
+public :
+	NormalAccount(int ID, int money, char* name, int rate)
+		:Account(ID, money, name), interRate(rate)
+	{}
+	
+	virtual void Deposit(int money)
+	{
+		Account::Deposit(money);	//원금 추가
+		Account::Deposit(money * (interRate / 100.0));	//이자 추가
+	}
+};
+/*
+	클래스 이름 : HighCreditAccount
+	클래스 유형 : Entity  클래스
+*/
+class HighCreditAccount :public NormalAccount
+{
+private:
+	int specialRate;
+public:
+	HighCreditAccount(int ID, int money, char* name, int rate, int special)
+		:NormalAccount(ID, money, name, rate), specialRate(special)
+	{}
+
+	virtual void Deposit(int money)
+	{
+		NormalAccount::Deposit(money);	//원금과 이자추가
+		Account::Deposit(money * (specialRate / 100.0));	//특별이자 추가
+	}
+};
+/*
 	클래스 이름 : AccountHandler
 	클래스 유형 : 컨트롤(Control) 클래스
 */
@@ -80,6 +124,9 @@ public:
 	void WithdrawMoney(void);	//출 금
 	void ShowAllAccInfo(void) const;	//잔액조회
 	~AccountHandler();
+protected:
+	void MakeNormalAccount(void);
+	void MakeCreditAccount(void);
 };
 
 void AccountHandler::ShowMenu(void) const {
@@ -90,21 +137,71 @@ void AccountHandler::ShowMenu(void) const {
 	cout << "4.계좌정보 전체 출력" << endl;
 	cout << "5. 프로그램 종료" << endl;
 }
-void AccountHandler::MakeAccount(void) {
+void AccountHandler::MakeAccount(void)
+{
+	int sel;
+	cout << "[계좌종류선택]" << endl;
+	cout << "1.보통예금계좌 ";
+	cout << "2.신용신뢰계좌 " << endl;
+	cout << "선택: ";
+	cin >> sel;
+
+	if (sel == NORMAL)
+		MakeNormalAccount();
+	else
+		MakeCreditAccount();
+}
+void AccountHandler::MakeNormalAccount(void) {
 	int id;
 	char name[NAME_LEN];
 	int balance;
+	int interRate;
 
-	cout << "[계좌개설]" << endl;
+	cout << "[보통예금계좌 개설]" << endl;
 	cout << "계좌 ID(숫자) : ";
 	cin >> id;
 	cout << "이름 : ";
 	cin >> name;
 	cout << "입금액 : ";
 	cin >> balance;
+	cout << "이자율 : ";
+	cin >> interRate;
 	cout << endl;
 
-	accArr[accNum++] = new Account(id, balance, name);
+	accArr[accNum++] = new NormalAccount(id, balance, name,interRate);
+}
+void AccountHandler::MakeCreditAccount(void) {
+	int id;
+	char name[NAME_LEN];
+	int balance;
+	int interRate;
+	int creditLevel;
+
+	cout << "[신용신뢰계좌 개설]" << endl;
+	cout << "계좌 ID(숫자) : ";
+	cin >> id;
+	cout << "이름 : ";
+	cin >> name;
+	cout << "입금액 : ";
+	cin >> balance;
+	cout << "이자율 : ";
+	cin >> interRate;
+	cout << "신용등급(1toA, 2toB, 3toC): ";
+	cin >> creditLevel;
+	cout << endl;
+
+	switch (creditLevel)
+	{
+	case 1:
+		accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_A);
+		break;
+	case 2:
+		accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_B);
+		break;
+	case 3:
+		accArr[accNum++] = new HighCreditAccount(id, balance, name, interRate, LEVEL_C);
+		break;
+	}
 }
 void AccountHandler::DepositMoney(void) {
 	int money;
