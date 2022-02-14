@@ -1,0 +1,24 @@
+/*
+	Account.h
+	version 0.7
+*/
+
+#ifndef __ACCOUNT_H__
+#define __ACCOUNT_H__
+
+class Account {
+private:
+	int accID;					//°èÁÂ¹øÈ£
+	int balance;				//ÀÜ¾×
+	char* cusName;				//°í°´ÀÌ¸§
+public:
+	Account(int ID, int money, char* name);
+	Account(const Account& ref);
+
+	int GetAccID() const;
+	virtual void Deposit(int money);
+	int Withdraw(int money);
+	void ShowAccInfo() const;
+	~Account();
+};
+#endif
