@@ -1,6 +1,6 @@
 /*
 	AccountHandler.cpp
-	version 0.7
+	version 0.9
 */
 
 #include "BankingCommonDecl.h"
@@ -8,6 +8,7 @@
 #include "Account.h"
 #include "NormalAccount.h"
 #include "HighCreditAccount.h"
+#include "String.h"
 
 void AccountHandler::ShowMenu(void) const {
 	cout << "----Menu----" << endl;
@@ -33,7 +34,8 @@ void AccountHandler::MakeAccount(void)
 }
 void AccountHandler::MakeNormalAccount(void) {
 	int id;
-	char name[NAME_LEN];
+	// char name[NAME_LEN];
+	String name;
 	int balance;
 	int interRate;
 
@@ -52,7 +54,8 @@ void AccountHandler::MakeNormalAccount(void) {
 }
 void AccountHandler::MakeCreditAccount(void) {
 	int id;
-	char name[NAME_LEN];
+	//char name[NAME_LEN];
+	String name;
 	int balance;
 	int interRate;
 	int creditLevel;

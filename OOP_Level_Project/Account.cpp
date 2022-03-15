@@ -1,17 +1,19 @@
 /*
 	Account.cpp
-	version 0.8
+	version 0.9
 */
 
 #include "BankingCommonDecl.h"
 #include "Account.h"
 
-Account::Account(int ID, int money, char* name)
+Account::Account(int ID, int money, String name)
 	:accID(ID), balance(money)
 {
-	cusName = new char[strlen(name) + 1];
-	strcpy(cusName, name);
+	//cusName = new char[strlen(name) + 1];
+	//strcpy(cusName, name);
+	cusName = name;
 }
+/*
 Account::Account(const Account& ref)
 	: accID(ref.accID), balance(ref.balance)
 {
@@ -28,7 +30,7 @@ Account& Account::operator=(const Account& ref)
 	strcpy(cusName, ref.cusName);
 	return *this;
 }
-
+*/
 int Account::GetAccID() const { return accID; }
 
 void Account::Deposit(int money) {
@@ -45,7 +47,7 @@ void Account::ShowAccInfo() const {
 	cout << "ÀÌ ¸§: " << cusName << endl;
 	cout << "ÀÜ ¾×: " << balance << endl;
 }
-Account::~Account()
+/*Account::~Account()
 {
 	delete[]cusName;
-}
+}*/

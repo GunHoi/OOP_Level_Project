@@ -144,6 +144,7 @@
     <ClCompile Include="AccountHandler.cpp" />
     <ClCompile Include="BankingSystemMain.cpp" />
     <ClCompile Include="OOP_Level_Project.cpp" />
+    <ClCompile Include="String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="BankingCommonDecl.h" />
     <ClInclude Include="HighCreditAccount.h" />
     <ClInclude Include="NormalAccount.h" />
+    <ClInclude Include="String.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
