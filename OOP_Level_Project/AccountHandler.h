@@ -1,18 +1,18 @@
 /*
 	AccountHandler.h
-	version 0.8
+	version 0.9
 */
 
 #ifndef __ACCOUNT_HANDLER_H__
 #define __ACCOUNT_HANDLER_H__
 
 #include "Account.h"
-#include "AccountArray.h"
+#include "BoundCheckArray.h"
 
 class AccountHandler
 {
 private:
-	BoundCheckAccountPtrArray accArr;
+	BoundCheckArray<Account*> accArr;
 	int accNum;					//저장된 ACCOUNT 수
 public:
 	AccountHandler();
